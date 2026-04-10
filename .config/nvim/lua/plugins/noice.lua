@@ -4,6 +4,16 @@ return {
   event = 'VeryLazy',
   opts = {
     -- add any options here
+    cmdline = {
+      format = {
+        search_down = false,
+        search_up = false,
+        filter = false,
+        lua = false,
+        help = false,
+        input = false,
+      },
+    },
   },
   dependencies = {
     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
