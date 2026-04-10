@@ -106,7 +106,11 @@ source $ZSH/oh-my-zsh.sh
 alias v="nvim"
 alias vim="nvim"
 
+# Enable mise
 eval "$(/home/axel/.local/bin/mise activate zsh)"
+
+# Enable zoxide
+eval "$(zoxide init zsh)"
 
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
