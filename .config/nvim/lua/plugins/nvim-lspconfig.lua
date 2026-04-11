@@ -60,7 +60,7 @@ return {
           map('grD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
           -- to see definition
-          map('K', vim.lsp.buf.hover, 'Chec[K] Information')
+          map('grk', vim.lsp.buf.hover, 'Chec[K] Information')
 
           -- The following two autocommands are used to highlight references of the
           -- word under your cursor when your cursor rests there for a little while.
