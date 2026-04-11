@@ -2,6 +2,8 @@ return {
   'nvim-lualine/lualine.nvim',
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   config = function()
+    local statusline = require 'arrow.statusline'
+
     require('lualine').setup {
       options = {
         theme = 'auto',
@@ -10,7 +12,13 @@ return {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
         lualine_c = { { 'filename', path = 1 } },
-        lualine_x = { 'filetype' },
+        lualine_x = {
+          {
+            function()
+              return statusline.text_for_statusline_with_icons() -- Same, but with an bow and arrow icon ;Dd,
+            end,
+          },
+        },
         lualine_y = { { 'lsp_status', ignore_lsp = { 'null-ls' }, show_name = false } },
         lualine_z = { 'location' },
       },
