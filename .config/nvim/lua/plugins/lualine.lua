@@ -7,12 +7,21 @@ return {
     require('lualine').setup {
       options = {
         theme = 'auto',
+        ignore_focus = {
+          'dapui_watches',
+          'dapui_stacks',
+          'dapui_scopes',
+          'dapui_breakpoints',
+          'dapui_console',
+          'dap-repl',
+        },
       },
       sections = {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
         lualine_c = { { 'filename', path = 1 } },
         lualine_x = {
+          'filetype',
           {
             function()
               return statusline.text_for_statusline_with_icons() -- Same, but with an bow and arrow icon ;Dd,
@@ -36,7 +45,7 @@ return {
       },
       tabline = {},
       inactive_winbar = {},
-      extensions = { 'oil' },
+      extensions = {},
     }
   end,
 }
