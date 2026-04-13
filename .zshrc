@@ -105,6 +105,9 @@ source $ZSH/oh-my-zsh.sh
 
 alias v="nvim"
 alias vim="nvim"
+alias n="nvim"
+
+alias cd="z"
 
 # Enable mise
 eval "$(/home/axel/.local/bin/mise activate zsh)"
