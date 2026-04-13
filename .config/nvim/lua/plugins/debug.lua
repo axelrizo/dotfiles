@@ -25,21 +25,28 @@ return {
 
     -- Add your own debuggers here
     'leoluz/nvim-dap-go',
+
+    -- Adds virtual text support to nvim-dap
+    'theHamsta/nvim-dap-virtual-text',
   },
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
-    { '<F5>', function() require('dap').continue() end, desc = 'Debug: Start/Continue' },
-    { '<F1>', function() require('dap').step_into() end, desc = 'Debug: Step Into' },
-    { '<F2>', function() require('dap').step_over() end, desc = 'Debug: Step Over' },
-    { '<F3>', function() require('dap').step_out() end, desc = 'Debug: Step Out' },
-    { '<leader>b', function() require('dap').toggle_breakpoint() end, desc = 'Debug: Toggle Breakpoint' },
-    { '<leader>B', function() require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ') end, desc = 'Debug: Set Breakpoint' },
+    { '<leader>dd', function() require('dap').continue() end, desc = 'Start/Continue' },
+    { '<leader>dj', function() require('dap').step_into() end, desc = 'Step Into' },
+    { '<leader>dk', function() require('dap').step_over() end, desc = 'Step Over' },
+    { '<leader>dl', function() require('dap').step_out() end, desc = 'Step Out' },
+    { '<leader>db', function() require('dap').toggle_breakpoint() end, desc = 'Toggle Breakpoint' },
+    { '<leader>dB', function() require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ') end, desc = 'Set Breakpoint' },
     -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-    { '<F7>', function() require('dapui').toggle() end, desc = 'Debug: See last session result.' },
+    { '<leader>dL', function() require('dapui').toggle() end, desc = 'See last session result.' },
+    -- Eval var under cursor
+    { '<leader>de', function() require('dapui').eval(nil, { enter = true }) end, desc = 'Eval var under cursor' },
   },
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
+
+    require('nvim-dap-virtual-text').setup {}
 
     require('mason-nvim-dap').setup {
       -- Makes a best effort to setup the various debuggers with
@@ -104,6 +111,38 @@ return {
         -- On Windows delve must be run attached or it crashes.
         -- See https://github.com/leoluz/nvim-dap-go/blob/main/README.md#configuring
         detached = vim.fn.has 'win32' == 0,
+      },
+    }
+
+    -- Elixir specific config
+    require('dap').adapters.mix_task = {
+      type = 'executable',
+      -- command = os.getenv 'HOME' .. '/.local/share/nvim/mason/packages/elixir-ls/debug_adapter.sh',
+      command = vim.fn.stdpath 'data' .. '/mason/bin/elixir-ls-debugger',
+      args = {},
+    }
+    require('dap').configurations.elixir = {
+      {
+        type = 'mix_task',
+        name = 'mix test',
+        task = 'test',
+        taskArgs = { '--trace' },
+        request = 'launch',
+        startApps = true, -- for Phoenix projects
+        projectDir = '${workspaceFolder}',
+        requireFiles = { 'test/**/test_helper.exs', 'test/**/*_test.exs' },
+      },
+      {
+        type = 'mix_task',
+        name = 'mix test (My Diet - fast)',
+        task = 'test',
+        taskArgs = { '--trace' },
+        request = 'launch',
+        startApps = true, -- for Phoenix projects
+        projectDir = '${workspaceFolder}',
+        requireFiles = { 'test/**/test_helper.exs', 'test/**/*_test.exs' },
+        debugAutoInterpretAllModules = false,
+        debugInterpretModulesPatterns = { 'MyDiet.*', 'MyDietWeb.*' },
       },
     }
   end,
