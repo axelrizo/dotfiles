@@ -21,6 +21,16 @@ return {
     -- OPTIONAL:
     --   `nvim-notify` is only needed, if you want to use the notification view.
     --   If not available, we use `mini` as the fallback
-    'rcarriga/nvim-notify',
+    {
+      'rcarriga/nvim-notify',
+      opts = {
+        minimum_width = 30,
+        max_width = 30,
+        max_height = 6,
+        stages = 'static',
+        timeout = 3500,
+        top_down = false,
+      },
+    },
   },
 }
