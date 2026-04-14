@@ -109,6 +109,9 @@ alias n="nvim"
 
 alias cd="z"
 
+# Enable oh-my-posh
+eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/base.toml)"
+
 # Enable mise
 eval "$(/home/axel/.local/bin/mise activate zsh)"
 
