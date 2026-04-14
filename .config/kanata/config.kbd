@@ -1,0 +1,11 @@
+(defsrc
+  caps
+  lctl)
+
+(defalias
+  lctlesc (tap-hold 200 150 esc lctl))
+
+(deflayer base
+  @lctlesc
+  caps)
+
