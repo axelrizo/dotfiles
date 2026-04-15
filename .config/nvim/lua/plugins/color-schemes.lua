@@ -4,6 +4,8 @@ return {
   { 'mslvx/obscure.nvim', lazy = false, priority = 1000, opts = {} },
   { 'thesimonho/kanagawa-paper.nvim', lazy = false, priority = 1000, opts = {} },
   { 'smit4k/shale.nvim', lazy = false, priority = 1000 },
+  { 'thekylehuang/cole.nvim', lazy = false, priority = 1000 },
+  { 'vague-theme/vague.nvim', lazy = false, priority = 1000 },
   {
     -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
@@ -22,7 +24,7 @@ return {
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'moonfly'
+      vim.cmd.colorscheme 'vague'
     end,
   },
 }
