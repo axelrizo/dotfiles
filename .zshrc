@@ -1,4 +1,4 @@
-# If you come from bash you might have to change your $PATH.
+
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
 # Path to your Oh My Zsh installation.
@@ -104,10 +104,15 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 alias v="nvim"
-alias vim="nvim"
 alias n="nvim"
+alias vim='nvim'
+
+alias la="ls -a"
+alias ll="ls -alF"
 
 alias cd="z"
+
+alias cl="clear"
 
 # Enable oh-my-posh
 eval "$(oh-my-posh init zsh --config $HOME/.config/ohmyposh/base.toml)"
@@ -118,8 +123,41 @@ eval "$(/home/axel/.local/bin/mise activate zsh)"
 # Enable zoxide
 eval "$(zoxide init zsh)"
 
+# Activate vim mode
+bindkey -v
+export KEYTIMEOUT=1
+
+# Change cursor with support for inside/outside tmux
+function _set_cursor() {
+    if [[ $TMUX = '' ]]; then
+      echo -ne $1
+    else
+      echo -ne "\ePtmux;\e\e$1\e\\"
+    fi
+}
+
+function _set_block_cursor() { _set_cursor '\e[2 q' }
+function _set_beam_cursor() { _set_cursor '\e[6 q' }
+
+function zle-keymap-select {
+  if [[ ${KEYMAP} == vicmd ]] || [[ $1 = 'block' ]]; then
+      _set_block_cursor
+  else
+      _set_beam_cursor
+  fi
+}
+zle -N zle-keymap-select
+# ensure beam cursor when starting new terminal
+precmd_functions+=(_set_beam_cursor) #
+# ensure insert mode and beam cursor when exiting vim
+zle-line-init() { zle -K viins; _set_beam_cursor }
+# Activate vim mode END
+
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
+# Initialize tmux
 export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
-
+if [[ -x "$(command -v tmux)" ]] && [[ -z "${TMUX}" ]]; then
+    exec tmux
+fi   
