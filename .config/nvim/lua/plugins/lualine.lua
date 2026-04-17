@@ -1,12 +1,43 @@
+local tmux_char = {
+  function()
+    -- check if current pane is zoomed
+    local result = io.popen "tmux list-panes -F '#F' | grep Z"
+
+    if result ~= nil and result:read '*a' ~= '' then
+      result:close()
+      return '■■' --current pane is zoomed
+    else
+      return '■' -- not zoomed
+    end
+  end,
+  padding = { left = 1, right = 1 }, -- We don't need space before this
+  cond = function() return os.getenv 'TMUX' ~= nil end,
+  on_click = function() os.execute 'tmux resize-pane -Z' end,
+}
+
 return {
   'nvim-lualine/lualine.nvim',
   dependencies = { 'nvim-tree/nvim-web-devicons' },
   config = function()
     local statusline = require 'arrow.statusline'
 
+    -- TROUBLE
+    local trouble = require 'trouble'
+    local symbols = trouble.statusline {
+      mode = 'lsp_document_symbols',
+      groups = {},
+      title = false,
+      filter = { range = true },
+      format = '{kind_icon}{symbol.name:Normal}',
+      -- The following line is needed to fix the background color
+      -- Set it to the lualine section you want to use
+      hl_group = 'lualine_c_normal',
+    }
+    -- TROUBLE END
+
     require('lualine').setup {
       options = {
-        theme = 'auto',
+        globalstatus = true,
         ignore_focus = {
           'dapui_watches',
           'dapui_stacks',
@@ -19,8 +50,12 @@ return {
       sections = {
         lualine_a = { 'mode' },
         lualine_b = { 'branch', 'diff', 'diagnostics' },
-        lualine_c = { { 'filename', path = 1 } },
+        lualine_c = {
+          { 'filename', path = 1 },
+          -- { symbols.get, cond = symbols.has }
+        },
         lualine_x = {
+          tmux_char,
           'filetype',
           {
             function()
