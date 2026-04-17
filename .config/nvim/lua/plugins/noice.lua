@@ -6,12 +6,23 @@ return {
     -- add any options here
     cmdline = {
       format = {
-        -- search_down = false,
-        -- search_up = false,
-        -- filter = false,
-        -- lua = false,
-        -- help = false,
-        -- input = false,
+        search_down = false,
+        search_up = false,
+        filter = false,
+        lua = false,
+        help = false,
+        input = false,
+      },
+    },
+    lsp = {
+      progress = {
+        enabled = false,
+      },
+      message = {
+        enabled = false,
+      },
+      signature = {
+        enabled = false,
       },
     },
   },
@@ -25,8 +36,8 @@ return {
       'rcarriga/nvim-notify',
       opts = {
         minimum_width = 20,
-        max_width = 80,
-        max_height = 6,
+        max_width = 60,
+        max_height = 4,
         stages = 'static',
         timeout = 3500,
         top_down = false,
