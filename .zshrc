@@ -161,3 +161,6 @@ export PATH="$PATH:/opt/nvim-linux-x86_64/bin"
 if [[ -x "$(command -v tmux)" ]] && [[ -z "${TMUX}" ]]; then
     exec tmux
 fi   
+
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:$HOME/go/bin
