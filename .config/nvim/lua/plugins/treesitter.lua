@@ -13,6 +13,10 @@ return { -- Highlight, edit, and navigate code
         'diff',
         'query',
 
+        -- go
+        'go',
+        'gomod',
+
         -- markdown
         'markdown',
         'markdown_inline',
