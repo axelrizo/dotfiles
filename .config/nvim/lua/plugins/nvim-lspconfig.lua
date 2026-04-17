@@ -19,7 +19,7 @@ return {
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
       -- Useful status updates for LSP.
-      { 'j-hui/fidget.nvim', opts = {} },
+      -- { 'j-hui/fidget.nvim', opts = {} },
     },
     config = function()
       local navic = require 'nvim-navic'
@@ -107,7 +107,7 @@ return {
       ---@type table<string, vim.lsp.Config>
       local servers = {
         -- clangd = {},
-        -- gopls = {},
+        gopls = {},
         -- pyright = {},
         -- rust_analyzer = {},
         --
@@ -177,6 +177,7 @@ return {
   },
   {
     'utilyre/barbecue.nvim',
+    enabled = true,
     name = 'barbecue',
     version = '*',
     dependencies = {
