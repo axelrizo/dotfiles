@@ -32,13 +32,15 @@ return {
   keys = {
     -- Basic debugging keymaps, feel free to change to your liking!
     { '<leader>dd', function() require('dap').continue() end, desc = 'Start/Continue' },
-    { '<leader>dj', function() require('dap').step_into() end, desc = 'Step Into' },
-    { '<leader>dk', function() require('dap').step_over() end, desc = 'Step Over' },
-    { '<leader>dl', function() require('dap').step_out() end, desc = 'Step Out' },
+    { '<leader>ds', function() require('dap').terminate() end, desc = 'Stop' },
+    { '<C-down>', function() require('dap').step_into() end, desc = 'Step Into' },
+    { '<C-right>', function() require('dap').step_over() end, desc = 'Step Over' },
+    { '<C-up>', function() require('dap').step_out() end, desc = 'Step Out' },
+    { '<C-left>', function() require('dap').step_back() end, desc = 'Step Back' },
     { '<leader>db', function() require('dap').toggle_breakpoint() end, desc = 'Toggle Breakpoint' },
     { '<leader>dB', function() require('dap').set_breakpoint(vim.fn.input 'Breakpoint condition: ') end, desc = 'Set Breakpoint' },
     -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
-    { '<leader>dL', function() require('dapui').toggle() end, desc = 'See last session result.' },
+    { '<leader>dt', function() require('dapui').toggle() end, desc = '[t]oogle debugger' },
     -- Eval var under cursor
     { '<leader>de', function() require('dapui').eval(nil, { enter = true }) end, desc = 'Eval var under cursor' },
   },
@@ -131,18 +133,6 @@ return {
         startApps = true, -- for Phoenix projects
         projectDir = '${workspaceFolder}',
         requireFiles = { 'test/**/test_helper.exs', 'test/**/*_test.exs' },
-      },
-      {
-        type = 'mix_task',
-        name = 'mix test (My Diet - fast)',
-        task = 'test',
-        taskArgs = { '--trace' },
-        request = 'launch',
-        startApps = true, -- for Phoenix projects
-        projectDir = '${workspaceFolder}',
-        requireFiles = { 'test/**/test_helper.exs', 'test/**/*_test.exs' },
-        debugAutoInterpretAllModules = false,
-        debugInterpretModulesPatterns = { 'MyDiet.*', 'MyDietWeb.*' },
       },
     }
   end,
