@@ -78,6 +78,28 @@ return { -- Fuzzy Finder (files, lsp, etc)
 
     -- Useful for getting pretty icons, but requires a Nerd Font.
     { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+    { 'polirritmico/telescope-lazy-plugins.nvim' },
+    { 'OliverChao/telescope-picker-list.nvim' },
+    { 'nvim-telescope/telescope-dap.nvim' },
+    {
+      'fbuchlak/telescope-directory.nvim',
+      config = function()
+        -- @ignre
+        require('telescope-directory').setup {
+          search_options = {},
+          features = {
+            {
+              name = 'open_in_file_explorer',
+              callback = function(dirs, _)
+                local dir = dirs[1] -- open single directory (ignore multiple selection)
+                -- 3. https://github.com/stevearc/oil.nvim
+                require('oil').open(dir)
+              end,
+            },
+          },
+        }
+      end,
+    },
   },
   config = function()
     -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -114,11 +136,40 @@ return { -- Fuzzy Finder (files, lsp, etc)
       extensions = {
         ['ui-select'] = { require('telescope.themes').get_dropdown() },
       },
+      defaults = {
+        layout_strategy = 'horizontal',
+        layout_config = {
+          horizontal = {
+            prompt_position = 'top',
+            width = { padding = 0 },
+            height = { padding = 0 },
+            preview_width = 0.5,
+          },
+        },
+        sorting_strategy = 'ascending',
+        path_display = path_display,
+      },
     }
 
     -- Enable Telescope extensions if they are installed
     pcall(require('telescope').load_extension, 'fzf')
     pcall(require('telescope').load_extension, 'ui-select')
+    pcall(require('telescope').load_extension, 'noice')
+    pcall(require('telescope').load_extension, 'dap')
+    pcall(require('telescope').load_extension, 'lazy_plugins')
+    -- telescope-picker-list need to be at the end
+    pcall(require('telescope').load_extension, 'picker_list')
+
+    vim.keymap.set('n', '<leader>sz', function() require('telescope').extensions.lazy_plugins.lazy_plugins() end, { desc = '[S]earch [L]azy Plugins' })
+
+    vim.keymap.set(
+      'n',
+      '<leader>si',
+      function() require('telescope-directory').directory { feature = 'open_in_file_explorer' } end,
+      { desc = '[S]earch D[i]rectory' }
+    )
+
+    vim.keymap.set('n', '<leader>sp', function() require('telescope').extensions.picker_list.picker_list() end, { desc = '[S]earch [P]icker List' })
 
     -- See `:help telescope.builtin`
     local builtin = require 'telescope.builtin'
