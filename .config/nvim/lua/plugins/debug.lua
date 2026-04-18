@@ -74,21 +74,21 @@ return {
       -- Set icons to characters that are more likely to work in every terminal.
       --    Feel free to remove or use ones that you like more! :)
       --    Don't feel like these are good choices.
-      icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
-      ---@diagnostic disable-next-line: missing-fields
-      controls = {
-        icons = {
-          pause = '⏸',
-          play = '▶',
-          step_into = '⏎',
-          step_over = '⏭',
-          step_out = '⏮',
-          step_back = 'b',
-          run_last = '▶▶',
-          terminate = '⏹',
-          disconnect = '⏏',
-        },
-      },
+      --      icons = { expanded = '▾', collapsed = '▸', current_frame = '*' },
+      -- -@diagnostic disable-next-line: missing-fields
+      -- controls = {
+      -- icons = {
+      -- pause = '⏸',
+      -- play = '▶',
+      -- step_into = '⏎',
+      -- step_over = '⏭',
+      -- step_out = '⏮',
+      -- step_back = 'b',
+      -- run_last = '▶▶',
+      -- terminate = '⏹',
+      -- disconnect = '⏏',
+      -- },
+      -- },
     }
 
     -- Change breakpoint icons
@@ -125,10 +125,21 @@ return {
     }
     require('dap').configurations.elixir = {
       {
+
         type = 'mix_task',
         name = 'mix test',
         task = 'test',
         taskArgs = { '--trace' },
+        request = 'launch',
+        startApps = true, -- for Phoenix projects
+        projectDir = '${workspaceFolder}',
+        requireFiles = { 'test/**/test_helper.exs', 'test/**/*_test.exs' },
+      },
+      {
+        type = 'mix_task',
+        name = 'mix test dbg',
+        task = 'test',
+        taskArgs = { '--trace', '--only', 'dbg' },
         request = 'launch',
         startApps = true, -- for Phoenix projects
         projectDir = '${workspaceFolder}',
