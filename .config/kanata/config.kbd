@@ -3,7 +3,7 @@
   lctl)
 
 (defalias
-  lctlesc (tap-hold 230 180 esc lctl))
+  lctlesc (tap-hold 200 150 esc lctl))
 
 (deflayer base
   @lctlesc
